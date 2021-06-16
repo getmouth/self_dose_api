@@ -1,0 +1,13 @@
+version: '3.1'
+
+services:
+  dose_db:
+    image: mongo
+    restart: always
+    ports:
+    - 27017:27017
+    volumes:
+      - db_data:/data/db
+
+volumes:
+  db_data:
