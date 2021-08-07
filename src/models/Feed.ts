@@ -3,12 +3,6 @@ import { FeedType } from '../types'
 
 interface ModelFeedType extends Document {
   _id?: string
-  items: {
-    _id: string
-    url: string
-    title: string
-    image: string
-  }
 }
 
 const feedSchema = new Schema<FeedType>({
@@ -18,7 +12,11 @@ const feedSchema = new Schema<FeedType>({
     unique: true,
     minlength: 3,
   },
-  userId: String,
+  userId: {
+    type: Schema.Types.ObjectId,
+    ref: 'user',
+  },
+  deviceId: String,
   items: [
     {
       title: {
@@ -42,6 +40,13 @@ feedSchema.set('toJSON', {
   },
 })
 
-const Feed = model<ModelFeedType>('Feed', feedSchema)
+feedSchema.pre('save', function (next) {
+  if (!this.deviceId && !this.userId) {
+    throw new Error('New Feed cannot be added without user info')
+  }
+  next()
+})
+
+const Feed = model<ModelFeedType>('feed', feedSchema)
 
 export default Feed

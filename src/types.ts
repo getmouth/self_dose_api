@@ -9,9 +9,8 @@ export interface FeedType {
   }[]
 }
 
-export interface BodyType {
-  id: string
+export interface NewFeedType {
   title: string
   url: string
-  userId: string
+  feedType: string
 }
