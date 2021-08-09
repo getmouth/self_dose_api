@@ -24,7 +24,7 @@ const favoriteSchema = new Schema<FavoriteType>({
     ref: 'user',
   },
   deviceId: String,
-})
+},{timestamps: true})
 
 favoriteSchema.pre('save', function (next) {
   if (!this.deviceId && !this.userId) {
@@ -38,6 +38,7 @@ favoriteSchema.set('toJSON', {
     obj.id = obj._id?.toString()
     delete obj._id
     delete obj.__v
+    delete obj.deviceId
   },
 })
 

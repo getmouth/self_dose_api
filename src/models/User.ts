@@ -3,6 +3,7 @@ import { FeedType } from '../types'
 
 interface ModelFeedType extends Document {
   _id?: string
+  deviceId?: string
 }
 
 const userSchema = new Schema<FeedType>({
@@ -20,13 +21,14 @@ const userSchema = new Schema<FeedType>({
   isTempUser: Boolean,
   avatar: String,
   deviceId: String,
-})
+}, {timestamps: true})
 
 userSchema.set('toJSON', {
   transform: (_document: Document, obj: ModelFeedType) => {
     obj.id = obj._id?.toString()
     delete obj._id
     delete obj.__v
+    delete obj.deviceId
   },
 })
 

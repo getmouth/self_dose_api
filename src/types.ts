@@ -1,6 +1,8 @@
 export interface FeedType {
   id: string
   userId: string
+  deviceId: string
+  feedType: TypeOfFeed
   title: string | undefined
   items: {
     title: string | undefined
@@ -9,8 +11,13 @@ export interface FeedType {
   }[]
 }
 
+export enum TypeOfFeed {
+  Blog = 'blog-link',
+  Feed = 'rss-feed',
+}
+
 export interface NewFeedType {
   title: string
   url: string
-  feedType: string
+  feedType: TypeOfFeed
 }

@@ -1,7 +1,10 @@
-import { NewFeedType } from '../types'
+import { NewFeedType, TypeOfFeed } from '../types'
 
 const isString = (value: unknown): value is string => {
   return typeof value === 'string'
+}
+const isFeedType = (value: unknown): value is TypeOfFeed => {
+  return Object.values(TypeOfFeed).includes(value as TypeOfFeed)
 }
 
 const parseSTitle = (value: unknown): string => {
@@ -20,8 +23,8 @@ const parseUrl = (value: unknown): string => {
   return value
 }
 
-const parseFeedType = (value: unknown): string => {
-  if (!value || !isString(value)) {
+const parseFeedType = (value: unknown): TypeOfFeed => {
+  if (!value || !isFeedType(value)) {
     throw new Error(`Missing value or Id is not a string: ${value}`)
   }
 
@@ -29,7 +32,6 @@ const parseFeedType = (value: unknown): string => {
 }
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const validateBody = (value: any): NewFeedType => {
-  console.log(value)
   return {
     title: parseSTitle(value.title),
     url: parseUrl(value.url),
